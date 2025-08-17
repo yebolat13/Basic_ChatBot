@@ -10,7 +10,10 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Initialize sentiment analyzer and user data store
 analyzer = SentimentIntensityAnalyzer()
-user_data = {}  # Store user-specific data like name
+user_data = {
+    'name': None,
+    'state': 'initial' # New state for conversation flow management
+}
 
 # Load the intents data with error handling
 try:
@@ -26,8 +29,6 @@ except json.JSONDecodeError:
     exit()
 
 # --- Model Training Section ---
-# This part trains the model only once at startup
-
 all_patterns = []
 all_tags = []
 
@@ -52,14 +53,8 @@ else:
 with open('data/chatbot_model.pkl', 'wb') as f:
     pickle.dump(model_pipeline, f)
 
-
 # --- Model Loading and Usage Section ---
-
 def get_sentiment_score(sentence):
-    """
-    Analyzes the sentiment of a sentence and returns a compound score.
-    Score is between -1 (most negative) and +1 (most positive).
-    """
     sentiment = analyzer.polarity_scores(sentence)
     return sentiment['compound']
 
@@ -72,18 +67,25 @@ def get_response(input_sentence):
         print("Model file not found or corrupted. Please run the script once to train the model.")
         return "I'm sorry, an error occurred. I cannot understand you."
     
-    # Analyze sentiment of the user input
-    sentiment_score = get_sentiment_score(input_sentence)
-
     # Check for negative sentiment
+    sentiment_score = get_sentiment_score(input_sentence)
     if sentiment_score < -0.3:
         return "I'm sorry to hear that. I understand you're upset. How can I help you better?"
-    
+
+    # Check for specific user state before predicting intent
+    if user_data['state'] == 'awaiting_order_number':
+        # Simple check for a number in the input
+        if any(char.isdigit() for char in input_sentence):
+            order_number = ''.join(filter(str.isdigit, input_sentence))
+            user_data['state'] = 'initial' # Reset state after getting the info
+            return f"Thank you. I'm checking the status for order number {order_number}..."
+        else:
+            return "That doesn't look like a valid order number. Can you please enter it again?"
+
+    # Predict intent using the trained model
     predicted_tag = loaded_model.predict([input_sentence])[0]
     
-    # ### EK KOD BAŞLANGICI (TURKISH) -> ###
-    # ### BEGINNING OF ADDED CODE ###
-    # Name capture logic using a simple string search
+    # Name capture logic
     if predicted_tag == "name_capture":
         words = input_sentence.split()
         try:
@@ -105,26 +107,24 @@ def get_response(input_sentence):
                 return "I didn't quite catch your name. Can you please tell me again?"
         except ValueError:
             return "I didn't quite catch that. Can you please state your name clearly?"
-    # ### EK KOD BİTİŞİ (TURKISH) -> ###
-    # ### END OF ADDED CODE ###
+
+    # Check for multi-step intent and set state
+    if predicted_tag == 'order_status':
+        user_data['state'] = 'awaiting_order_number'
+        return "To check your order status, I need your order number. Can you please provide it?"
 
     # Find the corresponding response
     for intent in intents['intents']:
         if intent['tag'] == predicted_tag:
-            # ### EK KOD BAŞLANGICI (TURKISH) -> ###
-            # ### BEGINNING OF ADDED CODE ###
             # Check for name in greeting responses
-            if predicted_tag == "greeting" and 'name' in user_data:
+            if predicted_tag == "greeting" and user_data['name']:
                 return random.choice([f"Hello, {user_data['name']}! How can I help you today?",
                                       f"Hi, {user_data['name']}! What can I do for you?",
                                       "What's up?"])
-            # ### EK KOD BİTİŞİ (TURKISH) -> ###
-            # ### END OF ADDED CODE ###
             return random.choice(intent['responses'])
     
     # Fallback response
     return "I'm sorry, I don't understand that. Can you rephrase?"
-
 
 # Start the chatbot
 print("Let's chat! (type 'quit' to exit)")
