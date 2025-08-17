@@ -42,6 +42,74 @@
         "You can call me Bot.",
         "I don't have a name."
       ]
+    },
+    {
+      "tag": "product_info",
+      "patterns": [
+        "What products do you have?",
+        "Tell me about your services",
+        "Can you describe your items?",
+        "What are you selling?"
+      ],
+      "responses": [
+        "We offer a wide range of digital products, including e-books and online courses.",
+        "You can find detailed information about our services on our website's product page.",
+        "Our main products are premium digital tools for developers and designers."
+      ]
+    },
+    {
+      "tag": "payment",
+      "patterns": [
+        "What payment methods do you accept?",
+        "How can I pay?",
+        "Do you take credit cards?",
+        "Is payment secure?"
+      ],
+      "responses": [
+        "We accept all major credit cards, PayPal, and bank transfers.",
+        "You can pay securely using your credit card or PayPal account.",
+        "All our payment processes are secured with industry-standard encryption."
+      ]
+    },
+    {
+      "tag": "shipping",
+      "patterns": [
+        "Do you ship internationally?",
+        "How long does shipping take?",
+        "What are the shipping costs?",
+        "Can I track my order?"
+      ],
+      "responses": [
+        "Since our products are digital, there is no shipping required! You get instant access after purchase.",
+        "As soon as your payment is confirmed, the product download link is sent to your email."
+      ]
+    },
+    {
+      "tag": "hours",
+      "patterns": [
+        "What are your opening hours?",
+        "When are you open?",
+        "Are you open on weekends?",
+        "What time do you close?"
+      ],
+      "responses": [
+        "We operate 24/7 online, so you can access our services anytime!",
+        "Our website is always open for business."
+      ]
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "How can I contact support?",
+        "What is your email address?",
+        "Can I talk to a person?",
+        "How do I reach customer service?"
+      ],
+      "responses": [
+        "You can reach our support team by emailing support@example.com.",
+        "For direct assistance, please fill out the contact form on our website.",
+        "You can send us an email at our support address for quick help."
+      ]
     }
   ]
 }

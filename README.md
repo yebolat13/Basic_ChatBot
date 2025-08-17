@@ -42,3 +42,17 @@ This is a basic rule-based chatbot created with Python and the NLTK library. It 
 2.  Start chatting with the bot! Type `quit` to exit the conversation.
 
 ## Project Structure
+
+simple-chatbot/
+├── chatbot.py
+├── intents.json
+├── requirements.txt
+└── README.md
+
+## How It Works
+
+The chatbot uses a simple pattern-matching approach:
+1.  User input is tokenized (split into words).
+2.  Words are stemmed (reduced to their root form).
+3.  The stemmed words are compared against the patterns in `intents.json`.
+4.  If a match is found, a random response from the corresponding intent is selected and displayed.
