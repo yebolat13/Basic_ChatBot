@@ -1,10 +1,16 @@
+certifi==2025.8.3
+charset-normalizer==3.4.3
 click==8.2.1
 colorama==0.4.6
+idna==3.10
 joblib==1.5.1
 nltk==3.9.1
 numpy==2.3.2
 regex==2025.7.34
+requests==2.32.4
 scikit-learn==1.7.1
 scipy==1.16.1
 threadpoolctl==3.6.0
 tqdm==4.67.1
+urllib3==2.5.0
+vaderSentiment==3.3.2

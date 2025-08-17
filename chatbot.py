@@ -6,6 +6,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+# Initialize sentiment analyzer
+analyzer = SentimentIntensityAnalyzer()
 
 # Load the intents data with error handling
 try:
@@ -34,53 +38,65 @@ for intent in intents['intents']:
         all_tags.append(tag)
 
 # Metin verisini vektörleştirmek ve bir sınıflandırıcı eğitmek için Pipeline oluşturma
-# TfidfVectorizer, kelime frekanslarını ve önemini hesaba katarak daha iyi sonuç verir
 model_pipeline = Pipeline([
     ('vectorizer', TfidfVectorizer(tokenizer=tokenize, preprocessor=None, lowercase=True)),
     ('classifier', LogisticRegression(max_iter=1000))
 ])
 
 # Veriyi eğitime ayırma
-X_train, X_test, y_train, y_test = train_test_split(all_patterns, all_tags, test_size=0.2, random_state=42, stratify=all_tags)
-
-# Modeli eğitin
-print("Training the model...")
-model_pipeline.fit(X_train, y_train)
-print("Model training complete.")
+# Küçük bir veri seti için test_size değerini dikkatli seçmeliyiz
+if len(all_tags) > 10 and len(set(all_tags)) < len(all_tags) * 0.8:
+    X_train, X_test, y_train, y_test = train_test_split(all_patterns, all_tags, test_size=0.2, random_state=42, stratify=all_tags)
+    model_pipeline.fit(X_train, y_train)
+else:
+    # Yeterli veri yoksa tüm veriyi kullanarak eğitin
+    print("Warning: Not enough data for a robust train/test split. Training on all available data.")
+    model_pipeline.fit(all_patterns, all_tags)
 
 # Modeli bir dosyaya kaydetme
 with open('data/chatbot_model.pkl', 'wb') as f:
     pickle.dump(model_pipeline, f)
 
+
 # --- Model Yükleme ve Kullanım Bölümü ---
-# Bu bölüm, model zaten eğitilmişse çalışacak
+
+def get_sentiment_score(sentence):
+    """
+    Analyzes the sentiment of a sentence and returns a compound score.
+    Score is between -1 (most negative) and +1 (most positive).
+    """
+    sentiment = analyzer.polarity_scores(sentence)
+    return sentiment['compound']
 
 def get_response(input_sentence):
-    # Eğer model eğitilmemişse veya yüklenemezse fallback mekanizması
+    # Load the trained model
     try:
         with open('data/chatbot_model.pkl', 'rb') as f:
             loaded_model = pickle.load(f)
     except (FileNotFoundError, pickle.UnpicklingError):
         print("Model file not found or corrupted. Please run the script once to train the model.")
         return "I'm sorry, an error occurred. I cannot understand you."
+    
+    # Analyze sentiment of the user input
+    sentiment_score = get_sentiment_score(input_sentence)
 
-    # Kullanıcı girdisini model ile tahmin etme
+    # Check for negative sentiment
+    if sentiment_score < -0.3:
+        return "I'm sorry to hear that. I understand you're upset. How can I help you better?"
+    
+    # Predict intent using the trained model
     predicted_tag = loaded_model.predict([input_sentence])[0]
     
-    # Güvenilirlik skorunu kontrol etme (isteğe bağlı, daha iyi bir tahmin için)
-    # prediction_proba = loaded_model.predict_proba([input_sentence])
-    # max_proba = max(prediction_proba[0])
-
-    # Tahmin edilen etikete göre yanıt bulma
+    # Find the corresponding response
     for intent in intents['intents']:
         if intent['tag'] == predicted_tag:
             return random.choice(intent['responses'])
     
-    # Eğer model bir etiket bulamazsa fallback
+    # Fallback response if model finds no match
     return "I'm sorry, I don't understand that. Can you rephrase?"
 
 
-# Chatbot'u başlat
+# Start the chatbot
 print("Let's chat! (type 'quit' to exit)")
 while True:
     user_input = input("You: ")
