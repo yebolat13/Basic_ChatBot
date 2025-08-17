@@ -2,9 +2,18 @@ import json
 import random
 from utils import tokenize, stem
 
-# Load the intents data from the JSON file
-with open('intents.json', 'r', encoding='utf-8') as f:
-    intents = json.load(f)
+# Load the intents data from the JSON file with error handling
+try:
+    with open('intents.json', 'r', encoding='utf-8') as f:
+        intents = json.load(f)
+except FileNotFoundError:
+    print("Error: The 'intents.json' file was not found.")
+    print("Please make sure the file exists in the same directory.")
+    exit()
+except json.JSONDecodeError:
+    print("Error: The 'intents.json' file has a syntax error.")
+    print("Please check the file for missing commas, brackets, or other formatting issues.")
+    exit()
 
 # Collect all patterns and tags
 all_words = []
