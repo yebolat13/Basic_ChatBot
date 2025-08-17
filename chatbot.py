@@ -1,76 +1,86 @@
 import json
 import random
+import pickle
 from utils import tokenize, stem
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
 
-# Load the intents data from the JSON file with error handling
+# Load the intents data with error handling
 try:
     with open('data/intents.json', 'r', encoding='utf-8') as f:
         intents = json.load(f)
 except FileNotFoundError:
     print("Error: The 'intents.json' file was not found.")
-    print("Please make sure the file exists in the same directory.")
+    print("Please make sure the file exists in the data directory.")
     exit()
 except json.JSONDecodeError:
     print("Error: The 'intents.json' file has a syntax error.")
     print("Please check the file for missing commas, brackets, or other formatting issues.")
     exit()
 
-# Collect all patterns and tags
-all_words = []
+# --- Model Eğitim Bölümü ---
+# Bu bölüm, chatbot başladığında sadece bir kez çalışacak
+
+# Toplam kelime dağarcığını ve etiketleri toplama
+all_patterns = []
 all_tags = []
-xy = []
 
 for intent in intents['intents']:
     tag = intent['tag']
-    all_tags.append(tag)
     for pattern in intent['patterns']:
-        w = tokenize(pattern)
-        all_words.extend(w)
-        xy.append((w, tag))
+        all_patterns.append(pattern)
+        all_tags.append(tag)
 
-# Stem and remove duplicates from the list of all words
-all_words = [stem(w) for w in all_words if w.isalnum()]
-all_words = sorted(list(set(all_words)))
-all_tags = sorted(list(set(all_tags)))
+# Metin verisini vektörleştirmek ve bir sınıflandırıcı eğitmek için Pipeline oluşturma
+# TfidfVectorizer, kelime frekanslarını ve önemini hesaba katarak daha iyi sonuç verir
+model_pipeline = Pipeline([
+    ('vectorizer', TfidfVectorizer(tokenizer=tokenize, preprocessor=None, lowercase=True)),
+    ('classifier', LogisticRegression(max_iter=1000))
+])
 
-def find_best_match(input_sentence):
-    """
-    Finds the best matching intent based on a simple word count.
-    """
-    tokenized_input = tokenize(input_sentence)
-    max_match = 0
-    best_match_tag = None
-    
-    for intent in intents['intents']:
-        match_count = 0
-        for pattern in intent['patterns']:
-            pattern_stems = [stem(w) for w in tokenize(pattern)]
-            
-            input_stems = [stem(w) for w in tokenized_input]
-            
-            for w in input_stems:
-                if w in pattern_stems:
-                    match_count += 1
-            
-        if match_count > max_match:
-            max_match = match_count
-            best_match_tag = intent['tag']
-            
-    return best_match_tag, max_match
+# Veriyi eğitime ayırma
+X_train, X_test, y_train, y_test = train_test_split(all_patterns, all_tags, test_size=0.2, random_state=42, stratify=all_tags)
 
-# Main chat loop
+# Modeli eğitin
+print("Training the model...")
+model_pipeline.fit(X_train, y_train)
+print("Model training complete.")
+
+# Modeli bir dosyaya kaydetme
+with open('data/chatbot_model.pkl', 'wb') as f:
+    pickle.dump(model_pipeline, f)
+
+# --- Model Yükleme ve Kullanım Bölümü ---
+# Bu bölüm, model zaten eğitilmişse çalışacak
+
 def get_response(input_sentence):
-    best_match_tag, max_match = find_best_match(input_sentence)
+    # Eğer model eğitilmemişse veya yüklenemezse fallback mekanizması
+    try:
+        with open('data/chatbot_model.pkl', 'rb') as f:
+            loaded_model = pickle.load(f)
+    except (FileNotFoundError, pickle.UnpicklingError):
+        print("Model file not found or corrupted. Please run the script once to train the model.")
+        return "I'm sorry, an error occurred. I cannot understand you."
+
+    # Kullanıcı girdisini model ile tahmin etme
+    predicted_tag = loaded_model.predict([input_sentence])[0]
     
-    if max_match > 0 and best_match_tag:
-        for intent in intents['intents']:
-            if intent['tag'] == best_match_tag:
-                return random.choice(intent['responses'])
+    # Güvenilirlik skorunu kontrol etme (isteğe bağlı, daha iyi bir tahmin için)
+    # prediction_proba = loaded_model.predict_proba([input_sentence])
+    # max_proba = max(prediction_proba[0])
+
+    # Tahmin edilen etikete göre yanıt bulma
+    for intent in intents['intents']:
+        if intent['tag'] == predicted_tag:
+            return random.choice(intent['responses'])
     
-    # Fallback response if no match is found
+    # Eğer model bir etiket bulamazsa fallback
     return "I'm sorry, I don't understand that. Can you rephrase?"
 
-# Start the chatbot
+
+# Chatbot'u başlat
 print("Let's chat! (type 'quit' to exit)")
 while True:
     user_input = input("You: ")
