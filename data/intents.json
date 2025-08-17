@@ -211,6 +211,19 @@
         "For technical issues, please email our support team with a description of the problem and your order number.",
         "Try clearing your browser cache or using a different browser. If the issue persists, let us know."
       ]
+    },
+    {
+      "tag": "name_capture",
+      "patterns": [
+        "My name is [name]",
+        "I am [name]",
+        "You can call me [name]",
+        "I'm [name]"
+      ],
+      "responses": [
+        "Hello [name], it's nice to meet you!",
+        "Hi [name], how can I help you today?"
+      ]
     }
   ]
 }
