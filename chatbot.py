@@ -4,7 +4,7 @@ from utils import tokenize, stem
 
 # Load the intents data from the JSON file with error handling
 try:
-    with open('intents.json', 'r', encoding='utf-8') as f:
+    with open('data/intents.json', 'r', encoding='utf-8') as f:
         intents = json.load(f)
 except FileNotFoundError:
     print("Error: The 'intents.json' file was not found.")

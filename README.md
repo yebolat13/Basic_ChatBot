@@ -43,11 +43,13 @@ This is a basic rule-based chatbot created with Python and the NLTK library. It 
 
 ## Project Structure
 
-simple-chatbot/
+Basic_ChatBot/
 ├── chatbot.py
-├── intents.json
+├── utils.py
 ├── requirements.txt
-└── README.md
+├── README.md
+└── data/
+    └── intents.json
 
 ## How It Works
 
