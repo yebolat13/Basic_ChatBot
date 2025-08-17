@@ -1,0 +1,47 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Is anyone there?",
+        "Good day"
+      ],
+      "responses": [
+        "Hello!",
+        "Hi there, how can I help you?",
+        "Hey! What's up?",
+        "Good to see you again!"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "Goodbye",
+        "See you later",
+        "Thanks for the help"
+      ],
+      "responses": [
+        "Goodbye! Have a great day.",
+        "See you later!",
+        "You're welcome!"
+      ]
+    },
+    {
+      "tag": "name",
+      "patterns": [
+        "What is your name?",
+        "Who are you?",
+        "Do you have a name?"
+      ],
+      "responses": [
+        "I am a simple chatbot created with NLP.",
+        "You can call me Bot.",
+        "I don't have a name."
+      ]
+    }
+  ]
+}

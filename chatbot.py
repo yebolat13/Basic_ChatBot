@@ -1,0 +1,84 @@
+import json
+import random
+import nltk
+from nltk.stem.porter import PorterStemmer
+
+# Initialize the Porter Stemmer for English words
+stemmer = PorterStemmer()
+
+def tokenize(sentence):
+    """
+    Split a sentence into words or tokens.
+    """
+    return nltk.word_tokenize(sentence)
+
+def stem(word):
+    """
+    Reduce a word to its root form (stem).
+    """
+    return stemmer.stem(word.lower())
+
+# Load the intents data from the JSON file
+with open('intents.json', 'r', encoding='utf-8') as f:
+    intents = json.load(f)
+
+# Collect all patterns and tags
+all_words = []
+all_tags = []
+xy = []
+
+for intent in intents['intents']:
+    tag = intent['tag']
+    all_tags.append(tag)
+    for pattern in intent['patterns']:
+        w = tokenize(pattern)
+        all_words.extend(w)
+        xy.append((w, tag))
+
+# Stem and remove duplicates from the list of all words
+all_words = [stem(w) for w in all_words if w.isalnum()]
+all_words = sorted(list(set(all_words)))
+all_tags = sorted(list(set(all_tags)))
+
+# Main chat loop logic
+def get_response(input_sentence):
+    tokenized_input = tokenize(input_sentence)
+    
+    # A simple matching algorithm: find the intent with the most matching words
+    max_match = 0
+    best_match_tag = None
+    
+    for intent in intents['intents']:
+        match_count = 0
+        for pattern in intent['patterns']:
+            pattern_stems = [stem(w) for w in tokenize(pattern)]
+            
+            # Find the stemmed words in the user's input
+            input_stems = [stem(w) for w in tokenized_input]
+            
+            # Count how many stemmed words match
+            for w in input_stems:
+                if w in pattern_stems:
+                    match_count += 1
+            
+        if match_count > max_match:
+            max_match = match_count
+            best_match_tag = intent['tag']
+    
+    if max_match > 0 and best_match_tag:
+        for intent in intents['intents']:
+            if intent['tag'] == best_match_tag:
+                return random.choice(intent['responses'])
+    
+    # Fallback response if no match is found
+    return "I'm sorry, I don't understand that. Can you rephrase?"
+
+# Start the chatbot
+print("Let's chat! (type 'quit' to exit)")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "quit":
+        break
+    
+    response = get_response(user_input)
+    print(f"Bot: {response}")
