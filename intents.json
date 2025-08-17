@@ -110,6 +110,48 @@
         "For direct assistance, please fill out the contact form on our website.",
         "You can send us an email at our support address for quick help."
       ]
+    },
+    {
+      "tag": "order_status",
+      "patterns": [
+        "Where is my order?",
+        "Has my order shipped yet?",
+        "What's the status of my order?",
+        "When will my order arrive?"
+      ],
+      "responses": [
+        "You can check your order status by logging into your account and visiting the 'My Orders' section.",
+        "Please provide your order number, and I can check the status for you.",
+        "For digital products, your order is processed instantly, and a download link is sent to your email."
+      ]
+    },
+    {
+      "tag": "return_policy",
+      "patterns": [
+        "How can I return an item?",
+        "What is your return policy?",
+        "Can I get a refund?",
+        "How do I get a refund?"
+      ],
+      "responses": [
+        "We offer a 30-day money-back guarantee on all our products. Please contact support for a refund.",
+        "Our return policy is detailed on the 'Refund Policy' page of our website.",
+        "To initiate a return, please email our support team with your order details."
+      ]
+    },
+    {
+      "tag": "technical_support",
+      "patterns": [
+        "I have a technical issue.",
+        "My download link is not working.",
+        "The product is not opening.",
+        "I need technical assistance."
+      ],
+      "responses": [
+        "Please describe your issue in detail, and our technical team will assist you as soon as possible.",
+        "For technical issues, please email our support team with a description of the problem and your order number.",
+        "Try clearing your browser cache or using a different browser. If the issue persists, let us know."
+      ]
     }
   ]
 }
