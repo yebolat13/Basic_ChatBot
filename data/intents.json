@@ -7,13 +7,21 @@
         "Hello",
         "Hey",
         "Is anyone there?",
-        "Good day"
+        "Good day",
+        "Hello there",
+        "Good morning",
+        "Good afternoon",
+        "How are you doing?",
+        "Hi, I need help",
+        "Are you there?"
       ],
       "responses": [
         "Hello!",
         "Hi there, how can I help you?",
         "Hey! What's up?",
-        "Good to see you again!"
+        "Good to see you again!",
+        "Greetings!",
+        "Hello, how can I assist you today?"
       ]
     },
     {
@@ -22,12 +30,20 @@
         "Bye",
         "Goodbye",
         "See you later",
-        "Thanks for the help"
+        "Thanks for the help",
+        "I'm leaving now",
+        "That's all for now, bye",
+        "Got to go",
+        "Later",
+        "Peace out",
+        "Thanks a lot, bye"
       ],
       "responses": [
         "Goodbye! Have a great day.",
         "See you later!",
-        "You're welcome!"
+        "You're welcome!",
+        "Bye, take care!",
+        "See you soon."
       ]
     },
     {
@@ -35,7 +51,11 @@
       "patterns": [
         "What is your name?",
         "Who are you?",
-        "Do you have a name?"
+        "Do you have a name?",
+        "What is your designation?",
+        "Do you have an identity?",
+        "What are you called?",
+        "I'd like to know your name"
       ],
       "responses": [
         "I am a simple chatbot created with NLP.",
@@ -49,7 +69,12 @@
         "What products do you have?",
         "Tell me about your services",
         "Can you describe your items?",
-        "What are you selling?"
+        "What are you selling?",
+        "What kind of products do you offer?",
+        "Can you show me your product catalog?",
+        "I'm looking for information on your services",
+        "What is available for sale?",
+        "Do you sell digital tools?"
       ],
       "responses": [
         "We offer a wide range of digital products, including e-books and online courses.",
@@ -63,7 +88,12 @@
         "What payment methods do you accept?",
         "How can I pay?",
         "Do you take credit cards?",
-        "Is payment secure?"
+        "Is payment secure?",
+        "Which payment options do you support?",
+        "Can I pay with credit card?",
+        "Is it possible to pay with PayPal?",
+        "What are the ways to pay?",
+        "Are all major cards accepted?"
       ],
       "responses": [
         "We accept all major credit cards, PayPal, and bank transfers.",
@@ -77,7 +107,13 @@
         "Do you ship internationally?",
         "How long does shipping take?",
         "What are the shipping costs?",
-        "Can I track my order?"
+        "Can I track my order?",
+        "How long does it take for shipping?",
+        "What are your shipping rates?",
+        "Do you deliver to my country?",
+        "How can I track my package?",
+        "Is there a shipping fee?",
+        "I need to know about delivery"
       ],
       "responses": [
         "Since our products are digital, there is no shipping required! You get instant access after purchase.",
@@ -90,7 +126,11 @@
         "What are your opening hours?",
         "When are you open?",
         "Are you open on weekends?",
-        "What time do you close?"
+        "What time do you close?",
+        "When are you guys open?",
+        "What are your hours of operation?",
+        "Are you available 24/7?",
+        "Can I access your services at night?"
       ],
       "responses": [
         "We operate 24/7 online, so you can access our services anytime!",
@@ -103,7 +143,12 @@
         "How can I contact support?",
         "What is your email address?",
         "Can I talk to a person?",
-        "How do I reach customer service?"
+        "How do I reach customer service?",
+        "What is your support email?",
+        "How do I get in touch with customer service?",
+        "I need to talk to a representative",
+        "Can I get your phone number?",
+        "How do I contact you?"
       ],
       "responses": [
         "You can reach our support team by emailing support@example.com.",
@@ -117,7 +162,12 @@
         "Where is my order?",
         "Has my order shipped yet?",
         "What's the status of my order?",
-        "When will my order arrive?"
+        "When will my order arrive?",
+        "Can you check my order status?",
+        "Is my package on its way?",
+        "Where is my item?",
+        "I want to know where my order is",
+        "Could you give me an update on my order?"
       ],
       "responses": [
         "You can check your order status by logging into your account and visiting the 'My Orders' section.",
@@ -131,7 +181,12 @@
         "How can I return an item?",
         "What is your return policy?",
         "Can I get a refund?",
-        "How do I get a refund?"
+        "How do I get a refund?",
+        "What is the procedure for a refund?",
+        "Can I return a purchased item?",
+        "How does the refund process work?",
+        "Do you have a money-back guarantee?",
+        "What are the rules for returns?"
       ],
       "responses": [
         "We offer a 30-day money-back guarantee on all our products. Please contact support for a refund.",
@@ -145,7 +200,11 @@
         "I have a technical issue.",
         "My download link is not working.",
         "The product is not opening.",
-        "I need technical assistance."
+        "I need technical assistance.",
+        "My software is not working",
+        "I have an issue with the product",
+        "The download is not completing",
+        "Can someone help me with this?"
       ],
       "responses": [
         "Please describe your issue in detail, and our technical team will assist you as soon as possible.",
