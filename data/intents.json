@@ -55,12 +55,34 @@
         "What is your designation?",
         "Do you have an identity?",
         "What are you called?",
-        "I'd like to know your name"
+        "I'd like to know your name",
+        "What's your name, bot?",
+        "I'm curious, what are you called?",
+        "Do you have a personal name?",
+        "What do you go by?",
+        "Tell me your name.",
+        "Are you just a program or do you have a name?",
+        "Who am I talking to?",
+        "What's your identity?",
+        "Can you please tell me your name?"
       ],
       "responses": [
         "I am a simple chatbot created with NLP.",
         "You can call me Bot.",
         "I don't have a name."
+      ]
+    },
+    {
+      "tag": "name_capture",
+      "patterns": [
+        "My name is [name]",
+        "I am [name]",
+        "You can call me [name]",
+        "I'm [name]"
+      ],
+      "responses": [
+        "Hello [name], it's nice to meet you!",
+        "Hi [name], how can I help you today?"
       ]
     },
     {
@@ -113,7 +135,18 @@
         "Do you deliver to my country?",
         "How can I track my package?",
         "Is there a shipping fee?",
-        "I need to know about delivery"
+        "I need to know about delivery times.",
+        "How do I find out the status of my shipment?",
+        "Can you tell me about delivery options?",
+        "What are your shipping rates to [country]?",
+        "Is there a charge for delivery?",
+        "Do you offer free shipping?",
+        "How long until my package arrives?",
+        "I want to track my parcel.",
+        "What's the estimated arrival time for my order?",
+        "Is express shipping available?",
+        "Can I get my order delivered by a specific date?",
+        "What's the shipping process like?"
       ],
       "responses": [
         "Since our products are digital, there is no shipping required! You get instant access after purchase.",
@@ -130,7 +163,15 @@
         "When are you guys open?",
         "What are your hours of operation?",
         "Are you available 24/7?",
-        "Can I access your services at night?"
+        "Can I access your services at night?",
+        "Are you guys open right now?",
+        "What time do you close on weekends?",
+        "Are you available during the holidays?",
+        "What are your business hours?",
+        "When can I use your services?",
+        "Are you open on Sundays?",
+        "I need to know your operational hours.",
+        "What time do you open?"
       ],
       "responses": [
         "We operate 24/7 online, so you can access our services anytime!",
@@ -210,19 +251,6 @@
         "Please describe your issue in detail, and our technical team will assist you as soon as possible.",
         "For technical issues, please email our support team with a description of the problem and your order number.",
         "Try clearing your browser cache or using a different browser. If the issue persists, let us know."
-      ]
-    },
-    {
-      "tag": "name_capture",
-      "patterns": [
-        "My name is [name]",
-        "I am [name]",
-        "You can call me [name]",
-        "I'm [name]"
-      ],
-      "responses": [
-        "Hello [name], it's nice to meet you!",
-        "Hi [name], how can I help you today?"
       ]
     }
   ]
