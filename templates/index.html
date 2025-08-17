@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic ChatBot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>ChatBot</h3>
+        </div>
+        <div class="chat-box" id="chat-box">
+            </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." autofocus>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
